@@ -2,7 +2,6 @@
 
 # Declare variable
 ADD_GIT_IGNORE=0
-ADD_TSCONFIG=0
 INSTALL_CMD='yarn add -D'
 ORIGIN_DIR='https://raw.githubusercontent.com/Barrior/lint-files/main/eslint-ts'
 DEPENDENCIES='
@@ -31,6 +30,7 @@ COMMIT_FILES='
 .prettierrc
 commitlint.config.js
 package.json
+tsconfig.json
 '
 
 for arg in "$@"; do
@@ -41,10 +41,6 @@ for arg in "$@"; do
   if [ $arg = '--add-gitignore' ]; then
     ADD_GIT_IGNORE=1
   fi
-
-  if [ $arg = '--add-tsconfig' ]; then
-    ADD_TSCONFIG=1
-  fi
 done
 
 # Install lint dependencies
@@ -54,16 +50,13 @@ eval $INSTALL_CMD $DEPENDENCIES --ignore-workspace-root-check
 curl -sLO "$ORIGIN_DIR/.editorconfig" \
   -sLO "$ORIGIN_DIR/.eslintrc" \
   -sLO "$ORIGIN_DIR/.prettierrc" \
-  -sLO "$ORIGIN_DIR/commitlint.config.js"
+  -sLO "$ORIGIN_DIR/commitlint.config.js" \
+  -sLO "$ORIGIN_DIR/tsconfig.json"
 
+# Download .gitignore file
 if [ $ADD_GIT_IGNORE = 1 ]; then
   curl -sLO "$ORIGIN_DIR/.gitignore"
   COMMIT_FILES=$COMMIT_FILES' .gitignore'
-fi
-
-if [ $ADD_TSCONFIG = 1 ]; then
-  curl -sLO "$ORIGIN_DIR/tsconfig.json"
-  COMMIT_FILES=$COMMIT_FILES' tsconfig.json'
 fi
 
 # Get and adjust lint json
