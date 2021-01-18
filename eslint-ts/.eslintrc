@@ -7,8 +7,7 @@
   },
   "env": {
     "browser": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
   "plugins": [
     "@typescript-eslint",
@@ -83,6 +82,15 @@
       "rules": {
         "simple-import-sort/imports": "off",
         "import/order": "error"
+      }
+    },
+    {
+      "files": [
+        "**/__test?(s)__/*.{j,t}s?(x)",
+        "**/test?(s)/**/*.{j,t}s?(x)"
+      ],
+      "env": {
+        "jest": true
       }
     }
   ]
